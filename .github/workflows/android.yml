@@ -1,10 +1,13 @@
 name: Android CI
 
 on:
+  # push:
+  #   branches: [ "master" ]
+  # pull_request:
+  #   branches: [ "master" ]
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    tags: 
+      - 'v*'
 
 jobs:
   build:
@@ -22,17 +25,17 @@ jobs:
     - name: Grant execute permission for gradlew
       working-directory: ./easycontrol
       run: chmod +x gradlew
-    # - name: Build server
-    #   working-directory: ./easycontrol
-    #   run: ./gradlew :server:build
-    - name: Build server and copy APK
+    - name: Build server and app
       working-directory: ./easycontrol
-      run: ./gradlew :server:copyRelease
-    # - name: Copy server to app resources
-    #   working-directory: ./easycontrol
-    #   run: |
-    #     mkdir -p app/src/main/res/raw/
-    #     cp server/build/libs/server.jar app/src/main/res/raw/easycontrol_server
-    - name: Build Android app
-      working-directory: ./easycontrol
-      run: ./gradlew :app:assembleDebug
+      run: |
+        ./gradlew :server:copyRelease
+        ./gradlew :app:assembleRelease
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 自动使用 GitHub Token
+      with:
+        upload_url: ${{ github.event.release.upload_url }}  # 动态获取 Release URL
+        asset_path: ./easycontrol/app/build/outputs/apk/release/app-release.apk  # APK 路径
+        asset_name: EasyControl-v1.0.0.apk  # 自定义文件名
+        asset_content_type: application/vnd.android.package-archive
