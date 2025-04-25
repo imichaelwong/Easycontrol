@@ -22,6 +22,14 @@ jobs:
     - name: Grant execute permission for gradlew
       working-directory: ./easycontrol
       run: chmod +x gradlew
-    - name: Build with Gradle
+    - name: Build server
       working-directory: ./easycontrol
-      run: ./gradlew build
+      run: ./gradlew :server:build
+    - name: Copy server to app resources
+      working-directory: ./easycontrol
+      run: |
+        mkdir -p app/src/main/res/raw/
+        cp server/build/libs/server.jar app/src/main/res/raw/easycontrol_server
+    - name: Build Android app
+      working-directory: ./easycontrol
+      run: ./gradlew :app:assembleDebug
