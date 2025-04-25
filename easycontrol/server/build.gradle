@@ -9,9 +9,9 @@ android {
   defaultConfig {
     minSdk 21
     targetSdk 34
-    applicationId 'top.saymzx.easycontrol.server'
-    versionCode 20000
-    versionName '2.0.0'
+    applicationId 'imichaelwong.easycontrol.server'
+    versionCode 10000
+    versionName '1.0.0'
   }
 
   buildTypes {
