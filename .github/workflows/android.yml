@@ -22,9 +22,12 @@ jobs:
     - name: Grant execute permission for gradlew
       working-directory: ./easycontrol
       run: chmod +x gradlew
-    - name: Build server
+    # - name: Build server
+    #   working-directory: ./easycontrol
+    #   run: ./gradlew :server:build
+    - name: Build server and copy APK
       working-directory: ./easycontrol
-      run: ./gradlew :server:build
+      run: ./gradlew :server:copyRelease
     - name: Copy server to app resources
       working-directory: ./easycontrol
       run: |
