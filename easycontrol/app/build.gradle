@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-  namespace 'imichaelwong.easycontrol.app'
+  namespace 'top.saymzx.easycontrol.app'
   compileSdk 34
 
   defaultConfig {
