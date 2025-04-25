@@ -40,7 +40,7 @@ jobs:
       id: version
       run: |
         VERSION_NAME="${GITHUB_REF#refs/tags/v}"
-        echo "APP_VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
+        echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
         echo "Version: ${VERSION_NAME}"
     - name: Generate version code
       run: |
@@ -54,8 +54,6 @@ jobs:
         STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}  # 注入 Secrets 到环境变量
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        VERSION_NAME: ${{ env.VERSION_NAME }}
-        VERSION_CODE: ${{ env.VERSION_CODE }}
       run: |
         ./gradlew :server:copyRelease
         ./gradlew :app:assembleRelease
