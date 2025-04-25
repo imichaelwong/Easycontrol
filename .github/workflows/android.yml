@@ -5,9 +5,9 @@ on:
   #   branches: [ "master" ]
   # pull_request:
   #   branches: [ "master" ]
-  push:
-    tags: 
-      - 'v*'
+  # push:
+  #   tags: 
+  #     - 'v*'
   release:
     types: [created]
 
@@ -40,12 +40,16 @@ jobs:
       run: |
         ./gradlew :server:copyRelease
         ./gradlew :app:assembleRelease
+    - name: Verify APK
+      run: |
+        ls -lh easycontrol/app/build/outputs/apk/release/
+        apksigner verify --print-certs easycontrol/app/build/outputs/apk/release/app-release.apk
     - name: Upload Release Assets
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 自动使用 GitHub Token
       with:
         upload_url: ${{ github.event.release.upload_url }}  # 动态获取 Release URL
-        asset_path: ./easycontrol/build/outputs/apk/release/app-release.apk  # APK 路径
+        asset_path: ./easycontrol/app/build/outputs/apk/release/app-release.apk  # APK 路径
         asset_name: EasyControl-${{ github.ref_name }}.apk  # 自定义文件名
         asset_content_type: application/vnd.android.package-archive
