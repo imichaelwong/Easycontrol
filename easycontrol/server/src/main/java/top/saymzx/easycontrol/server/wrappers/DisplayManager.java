@@ -9,6 +9,7 @@ import android.media.MediaCodec;
 import android.os.Build;
 import android.view.Display;
 import android.view.Surface;
+import androidx.annotation.SuppressLint;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
