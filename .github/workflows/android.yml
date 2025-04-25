@@ -28,8 +28,13 @@ jobs:
     - name: Set up signing
       run: |
         echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > easycontrol/app/keystore.jks
+        chmod 644 easycontrol/app/keystore.jks
     - name: Build server and app
       working-directory: ./easycontrol
+      env:
+        STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}  # 注入 Secrets 到环境变量
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
         ./gradlew :server:copyRelease
         ./gradlew :app:assembleRelease
