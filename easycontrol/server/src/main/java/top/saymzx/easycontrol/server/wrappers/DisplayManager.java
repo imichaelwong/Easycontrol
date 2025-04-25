@@ -66,14 +66,14 @@ public final class DisplayManager {
   }
 
   // 此处大量借鉴了 群友 @○_○ 所编写的易控车机版本相应功能
+  @SuppressLint("WrongConstant")
   public static VirtualDisplay createVirtualDisplay() throws Exception {
     DisplayInfo realDisplayinfo = getDisplayInfo(Display.DEFAULT_DISPLAY);
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
       throw new Exception("Virtual display is not supported before Android 11");
     }
 
-    // int flags = android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC | android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY | VIRTUAL_DISPLAY_FLAG_DESTROY_CONTENT_ON_REMOVAL | android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_PRESENTATION;
-    int flags = android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC | android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY | android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_PRESENTATION;
+    int flags = android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC | android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY | VIRTUAL_DISPLAY_FLAG_DESTROY_CONTENT_ON_REMOVAL | android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_PRESENTATION;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) flags |= VIRTUAL_DISPLAY_FLAG_TRUSTED | VIRTUAL_DISPLAY_FLAG_OWN_DISPLAY_GROUP | VIRTUAL_DISPLAY_FLAG_ALWAYS_UNLOCKED;
     Surface surface = MediaCodec.createPersistentInputSurface();
     android.hardware.display.DisplayManager displayManager = android.hardware.display.DisplayManager.class.getDeclaredConstructor(Context.class).newInstance(FakeContext.get());
