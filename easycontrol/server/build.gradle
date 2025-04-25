@@ -10,7 +10,7 @@ android {
     minSdk 21
     targetSdk 34
     applicationId 'imichaelwong.easycontrol.server'
-    versionCode (System.getenv("VERSION_CODE") ?: "10000").toInteger()
+    versionCode (System.getenv("VERSION_CODE")?.toInteger() ?: getTimestampVersionCode())
     versionName System.getenv("VERSION_NAME") ?: "1.0.0"
   }
 
