@@ -47,16 +47,18 @@ jobs:
         DATE_PART=$(date +'%Y%m%d')
         SEQUENCE=$(echo $GITHUB_RUN_NUMBER | rev | cut -c 1-2 | rev)  # 取后两位
         echo "VERSION_CODE=${DATE_PART}${SEQUENCE}" >> $GITHUB_ENV
-        echo "VersionCode: ${VERSION_CODE}"
+        echo "VersionCode: ${DATE_PART}${SEQUENCE}"
     - name: Build server and app
       working-directory: ./easycontrol
       env:
         STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}  # 注入 Secrets 到环境变量
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        VERSION_CODE: ${{ env.VERSION_CODE }}
+        VERSION_NAME: ${{ env.VERSION_NAME }}
       run: |
-        ./gradlew :server:copyRelease
-        ./gradlew :app:assembleRelease
+        ./gradlew :server:copyRelease -PVERSION_CODE=$VERSION_CODE -PVERSION_NAME=$VERSION_NAME
+        ./gradlew :app:assembleRelease -PVERSION_CODE=$VERSION_CODE -PVERSION_NAME=$VERSION_NAME
     - name: Verify APK
       run: |
         ls -lh easycontrol/app/build/outputs/apk/release/
